@@ -12,3 +12,6 @@ Route::resource('projects', ProjectController::class);
 
 Route::resource('projects.tasks', TaskController::class)
     ->only(['create', 'store']);
+
+Route::resource('tasks', TaskController::class)
+    ->only(['edit', 'update', 'destroy']);

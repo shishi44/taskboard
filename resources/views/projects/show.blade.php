@@ -29,11 +29,9 @@
             概要
         </h2>
 
-
         <p class="detail-description">
             {{ $project->description ?: '説明はありません。' }}
         </p>
-
 
         <div class="detail-meta">
 
@@ -62,10 +60,8 @@
                 action="{{ route('projects.destroy', $project) }}"
                 method="POST"
             >
-
                 @csrf
                 @method('DELETE')
-
 
                 <button
                     type="submit"
@@ -89,178 +85,135 @@
 
     </div>
 
-<div class="page-header task-section-header">
 
-    <div>
+    <div class="page-header task-section-header">
 
-        <p class="eyebrow">
-            TASKS
-        </p>
+        <div>
 
-        <h2>
-            Tasks
-        </h2>
+            <p class="eyebrow">
+                TASKS
+            </p>
 
-        <p class="page-description">
-            このプロジェクトに登録されたタスクです。
-        </p>
+            <h2>
+                Tasks
+            </h2>
+
+            <p class="page-description">
+                このプロジェクトに登録されたタスクです。
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ route('projects.tasks.create', $project) }}"
+            class="button button-primary"
+        >
+            ＋ 新しいタスク
+        </a>
 
     </div>
 
 
-    <a
-        href="{{ route('projects.tasks.create', $project) }}"
-        class="button button-primary"
-    >
-        ＋ 新しいタスク
-    </a>
+    @if ($project->tasks->isEmpty())
 
-</div>
+        <div class="empty-state">
+            まだタスクがありません。
+        </div>
 
+    @else
 
-@if ($project->tasks->isEmpty())
+        <div class="project-list">
 
-    <div class="empty-state">
-        まだタスクがありません。
-    </div>
+            @foreach ($project->tasks as $task)
 
-@else
+                <article class="panel">
 
-    <div class="project-list">
-
-        @foreach ($project->tasks as $task)
-
-            <article class="panel">
-
-                <h2>
-                    {{ $task->title }}
-                </h2>
+                    <h2>
+                        {{ $task->title }}
+                    </h2>
 
 
-                <p class="project-description">
-                    {{ $task->description ?: '説明はありません。' }}
-                </p>
+                    <p class="project-description">
+                        {{ $task->description ?: '説明はありません。' }}
+                    </p>
 
 
-                <div class="task-meta">
-
-                    <span>
-                        ステータス：
-
-                        @if ($task->status === 'todo')
-                            未着手
-                        @elseif ($task->status === 'in_progress')
-                            進行中
-                        @else
-                            完了
-                        @endif
-                    </span>
-
-
-                    <span>
-                        優先度：
-
-                        @if ($task->priority === 'low')
-                            低
-                        @elseif ($task->priority === 'medium')
-                            中
-                        @else
-                            高
-                        @endif
-                    </span>
-
-
-                    @if ($task->due_date)
+                    <div class="task-meta">
 
                         <span>
-                            期限：
-                            {{ $task->due_date->format('Y/m/d') }}
+                            ステータス：
+
+                            @if ($task->status === 'todo')
+                                未着手
+                            @elseif ($task->status === 'in_progress')
+                                進行中
+                            @else
+                                完了
+                            @endif
                         </span>
 
-                    @endif
 
-                </div>
+                        <span>
+                            優先度：
 
-            </article>
-
-        @endforeach
-
-    </div>
-
-@endif
-
-</div>
-
-
-@if ($project->tasks->isEmpty())
-
-    <div class="empty-state">
-
-        まだタスクがありません。
-
-    </div>
-
-@else
-
-    <div class="project-list">
-
-        @foreach ($project->tasks as $task)
-
-            <article class="panel">
-
-                <h2>
-                    {{ $task->title }}
-                </h2>
-
-                <p class="project-description">
-                    {{ $task->description ?: '説明はありません。' }}
-                </p>
+                            @if ($task->priority === 'low')
+                                低
+                            @elseif ($task->priority === 'medium')
+                                中
+                            @else
+                                高
+                            @endif
+                        </span>
 
 
-<div class="task-meta">
+                        @if ($task->due_date)
 
-    <span>
-        ステータス：
+                            <span>
+                                期限：
+                                {{ $task->due_date->format('Y/m/d') }}
+                            </span>
 
-        @if ($task->status === 'todo')
-            未着手
-        @elseif ($task->status === 'in_progress')
-            進行中
-        @else
-            完了
-        @endif
-    </span>
+                        @endif
+
+                    </div>
 
 
-    <span>
-        優先度：
+                    <div class="action-row">
 
-        @if ($task->priority === 'low')
-            低
-        @elseif ($task->priority === 'medium')
-            中
-        @else
-            高
-        @endif
-    </span>
+                        <a
+                            href="{{ route('tasks.edit', $task) }}"
+                            class="button"
+                        >
+                            編集
+                        </a>
 
 
-    @if ($task->due_date)
+                        <form
+                            action="{{ route('tasks.destroy', $task) }}"
+                            method="POST"
+                        >
+                            @csrf
+                            @method('DELETE')
 
-        <span>
-            期限：
-            {{ $task->due_date->format('Y/m/d') }}
-        </span>
+                            <button
+                                type="submit"
+                                class="button button-danger"
+                                onclick="return confirm('このタスクを削除しますか？')"
+                            >
+                                削除
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </article>
+
+            @endforeach
+
+        </div>
 
     @endif
 
-</div>
-
-            </article>
-
-        @endforeach
-
-    </div>
-
-@endif
 @endsection
