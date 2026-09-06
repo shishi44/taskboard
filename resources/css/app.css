@@ -496,10 +496,148 @@ select:focus {
 }
 
 /* =============================
+   Dashboard Stats
+============================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        3,
+        minmax(0, 1fr)
+    );
+
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+
+.stat-card {
+    display: grid;
+    gap: 8px;
+
+    min-height: 140px;
+}
+
+
+.stat-label {
+    color: var(--text-subtle);
+
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+
+.stat-value {
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+
+.stat-description {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+
+.stat-card-danger {
+    border-color: #57272c;
+}
+
+
+.stat-card-danger .stat-value {
+    color: #ff9da3;
+}
+
+
+/* =============================
+   Dashboard Recent Tasks
+============================= */
+
+.dashboard-section {
+    margin-top: 16px;
+}
+
+
+.dashboard-section-header {
+    margin-bottom: 18px;
+}
+
+
+.recent-task-list {
+    display: grid;
+    gap: 8px;
+}
+
+
+.recent-task-row {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto
+        auto;
+
+    align-items: center;
+    gap: 24px;
+}
+
+
+.recent-task-main {
+    display: grid;
+    gap: 4px;
+
+    min-width: 0;
+}
+
+
+.recent-task-project {
+    color: var(--text-subtle);
+
+    font-size: 12px;
+}
+
+
+.recent-task-title {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.recent-task-info {
+    display: flex;
+    gap: 16px;
+
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* =============================
    Responsive
 ============================= */
 
 @media (max-width: 760px) {
+
+    .stats-grid {
+    grid-template-columns: repeat(
+        2,
+        minmax(0, 1fr)
+    );
+}
+
+
+.recent-task-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+
+.recent-task-info {
+    flex-wrap: wrap;
+}
 
     .app-shell {
         display: block;
