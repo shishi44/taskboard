@@ -1,119 +1,54 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>{{ $project->name }} | TaskBoard</title>
-
-    <style>
-        body {
-            margin: 0;
-            background: #0d0d0f;
-            color: #f5f5f5;
-            font-family:
-                Inter,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-        }
-
-        .container {
-            width: min(760px, calc(100% - 40px));
-            margin: 0 auto;
-            padding: 64px 0;
-        }
-
-        .back {
-            color: #9b9ba3;
-            text-decoration: none;
-        }
-
-        .card {
-            margin-top: 32px;
-            padding: 28px;
-            border: 1px solid #29292e;
-            border-radius: 10px;
-            background: #151518;
-        }
-
-        h1 {
-            margin: 0 0 16px;
-        }
-
-        .description {
-            color: #aaaab2;
-            line-height: 1.8;
-        }
-
-        .actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 32px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 16px;
-            border: 0;
-            border-radius: 8px;
-            background: #f5f5f5;
-            color: #111;
-            text-decoration: none;
-            font: inherit;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .delete {
-            background: #35191c;
-            color: #ff9a9f;
-        }
-
-        .success {
-            margin-top: 24px;
-            padding: 12px 16px;
-            border: 1px solid #28583e;
-            border-radius: 8px;
-            background: #10281c;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <a
-        href="{{ route('projects.index') }}"
-        class="back"
-    >
-        ← Projectsへ戻る
-    </a>
+@extends('layouts.app')
 
 
-    @if (session('success'))
+@section('title', $project->name)
 
-        <div class="success">
-            {{ session('success') }}
+
+@section('content')
+
+    <div class="page-header">
+
+        <div>
+
+            <p class="eyebrow">
+                PROJECT
+            </p>
+
+            <h1>
+                {{ $project->name }}
+            </h1>
+
         </div>
 
-    @endif
+    </div>
 
 
-    <div class="card">
+    <div class="panel">
 
-        <h1>
-            {{ $project->name }}
-        </h1>
+        <h2>
+            概要
+        </h2>
 
-        <div class="description">
+
+        <p class="detail-description">
             {{ $project->description ?: '説明はありません。' }}
+        </p>
+
+
+        <div class="detail-meta">
+
+            作成：
+            {{ $project->created_at->format('Y/m/d H:i') }}
+
+            ・
+
+            更新：
+            {{ $project->updated_at->format('Y/m/d H:i') }}
+
         </div>
 
 
-        <div class="actions">
+        <div class="action-row">
 
             <a
                 href="{{ route('projects.edit', $project) }}"
@@ -131,9 +66,10 @@
                 @csrf
                 @method('DELETE')
 
+
                 <button
                     type="submit"
-                    class="button delete"
+                    class="button button-danger"
                     onclick="return confirm('このプロジェクトを削除しますか？')"
                 >
                     削除
@@ -141,11 +77,16 @@
 
             </form>
 
+
+            <a
+                href="{{ route('projects.index') }}"
+                class="button"
+            >
+                一覧へ戻る
+            </a>
+
         </div>
 
     </div>
 
-</div>
-
-</body>
-</html>
+@endsection

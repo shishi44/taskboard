@@ -1,19 +1,70 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@extends('layouts.app')
 
-    <title>{{ $appName }}</title>
-</head>
 
-<body>
+@section('title', 'Dashboard')
 
-    <h1>{{ $appName }}</h1>
 
-    <p>{{ $message }}</p>
+@section('content')
 
-    <p>Laravelから表示された最初の自作ページです。</p>
+    <div class="page-header">
 
-</body>
-</html>
+        <div>
+
+            <p class="eyebrow">
+                DASHBOARD
+            </p>
+
+            <h1>
+                {{ $appName }}
+            </h1>
+
+            <p class="page-description">
+                {{ $message }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="panel">
+
+            <h2 class="dashboard-card-title">
+                Projects
+            </h2>
+
+            <p class="dashboard-card-text">
+                学習や開発内容をプロジェクト単位で管理します。
+            </p>
+
+            <div class="action-row">
+
+                <a
+                    href="{{ route('projects.index') }}"
+                    class="button"
+                >
+                    Projectsを見る
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2 class="dashboard-card-title">
+                Tasks
+            </h2>
+
+            <p class="dashboard-card-text">
+                次のステップでProjectにTaskを追加します。
+            </p>
+
+        </div>
+
+    </div>
+
+@endsection
