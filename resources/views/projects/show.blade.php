@@ -89,7 +89,7 @@
 
     </div>
 
-    <div class="page-header task-section-header">
+<div class="page-header task-section-header">
 
     <div>
 
@@ -106,6 +106,88 @@
         </p>
 
     </div>
+
+
+    <a
+        href="{{ route('projects.tasks.create', $project) }}"
+        class="button button-primary"
+    >
+        ＋ 新しいタスク
+    </a>
+
+</div>
+
+
+@if ($project->tasks->isEmpty())
+
+    <div class="empty-state">
+        まだタスクがありません。
+    </div>
+
+@else
+
+    <div class="project-list">
+
+        @foreach ($project->tasks as $task)
+
+            <article class="panel">
+
+                <h2>
+                    {{ $task->title }}
+                </h2>
+
+
+                <p class="project-description">
+                    {{ $task->description ?: '説明はありません。' }}
+                </p>
+
+
+                <div class="task-meta">
+
+                    <span>
+                        ステータス：
+
+                        @if ($task->status === 'todo')
+                            未着手
+                        @elseif ($task->status === 'in_progress')
+                            進行中
+                        @else
+                            完了
+                        @endif
+                    </span>
+
+
+                    <span>
+                        優先度：
+
+                        @if ($task->priority === 'low')
+                            低
+                        @elseif ($task->priority === 'medium')
+                            中
+                        @else
+                            高
+                        @endif
+                    </span>
+
+
+                    @if ($task->due_date)
+
+                        <span>
+                            期限：
+                            {{ $task->due_date->format('Y/m/d') }}
+                        </span>
+
+                    @endif
+
+                </div>
+
+            </article>
+
+        @endforeach
+
+    </div>
+
+@endif
 
 </div>
 
@@ -135,28 +217,44 @@
                 </p>
 
 
-                <div class="task-meta">
+<div class="task-meta">
 
-                    <span>
-                        Status:
-                        {{ $task->status }}
-                    </span>
+    <span>
+        ステータス：
 
-                    <span>
-                        Priority:
-                        {{ $task->priority }}
-                    </span>
+        @if ($task->status === 'todo')
+            未着手
+        @elseif ($task->status === 'in_progress')
+            進行中
+        @else
+            完了
+        @endif
+    </span>
 
-                    @if ($task->due_date)
 
-                        <span>
-                            Due:
-                            {{ $task->due_date->format('Y/m/d') }}
-                        </span>
+    <span>
+        優先度：
 
-                    @endif
+        @if ($task->priority === 'low')
+            低
+        @elseif ($task->priority === 'medium')
+            中
+        @else
+            高
+        @endif
+    </span>
 
-                </div>
+
+    @if ($task->due_date)
+
+        <span>
+            期限：
+            {{ $task->due_date->format('Y/m/d') }}
+        </span>
+
+    @endif
+
+</div>
 
             </article>
 

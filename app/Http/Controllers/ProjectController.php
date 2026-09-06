@@ -35,12 +35,18 @@ class ProjectController extends Controller
             ->with('success', 'プロジェクトを作成しました。');
     }
 
-    public function show(Project $project)
-    {
-        return view('projects.show', [
-            'project' => $project,
-        ]);
-    }
+public function show(Project $project)
+{
+    $project->load([
+        'tasks' => function ($query) {
+            $query->latest();
+        },
+    ]);
+
+    return view('projects.show', [
+        'project' => $project,
+    ]);
+}
 
     public function edit(Project $project)
     {
