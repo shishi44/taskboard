@@ -91,6 +91,22 @@
             border-radius: 8px;
             background: #10281c;
         }
+
+        .actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.actions a {
+    color: #aaaaff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.actions a:hover {
+    text-decoration: underline;
+}
     </style>
 </head>
 
@@ -128,21 +144,33 @@
 
     <div class="project-list">
 
-        @forelse ($projects as $project)
+@forelse ($projects as $project)
 
-            <div class="project">
+    <div class="project">
 
-                <h2>
-                    {{ $project->name }}
-                </h2>
+        <h2>
+            {{ $project->name }}
+        </h2>
 
-                <p>
-                    {{ $project->description ?: '説明はありません。' }}
-                </p>
+        <p>
+            {{ $project->description ?: '説明はありません。' }}
+        </p>
 
-            </div>
+        <div class="actions">
 
-        @empty
+            <a href="{{ route('projects.show', $project) }}">
+                詳細
+            </a>
+
+            <a href="{{ route('projects.edit', $project) }}">
+                編集
+            </a>
+
+        </div>
+
+    </div>
+
+@empty
 
             <div class="empty">
                 まだプロジェクトがありません。
