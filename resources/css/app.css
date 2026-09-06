@@ -483,6 +483,26 @@ textarea:focus {
     color: var(--text-muted);
 }
 
+/* =============================
+   Tasks
+============================= */
+
+.task-section-header {
+    margin-top: 48px;
+}
+
+
+.task-meta {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 8px 16px;
+    margin-top: 14px;
+
+    color: var(--text-subtle);
+
+    font-size: 13px;
+}
 
 /* =============================
    Responsive

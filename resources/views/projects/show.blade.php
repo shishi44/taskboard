@@ -89,4 +89,80 @@
 
     </div>
 
+    <div class="page-header task-section-header">
+
+    <div>
+
+        <p class="eyebrow">
+            TASKS
+        </p>
+
+        <h2>
+            Tasks
+        </h2>
+
+        <p class="page-description">
+            このプロジェクトに登録されたタスクです。
+        </p>
+
+    </div>
+
+</div>
+
+
+@if ($project->tasks->isEmpty())
+
+    <div class="empty-state">
+
+        まだタスクがありません。
+
+    </div>
+
+@else
+
+    <div class="project-list">
+
+        @foreach ($project->tasks as $task)
+
+            <article class="panel">
+
+                <h2>
+                    {{ $task->title }}
+                </h2>
+
+                <p class="project-description">
+                    {{ $task->description ?: '説明はありません。' }}
+                </p>
+
+
+                <div class="task-meta">
+
+                    <span>
+                        Status:
+                        {{ $task->status }}
+                    </span>
+
+                    <span>
+                        Priority:
+                        {{ $task->priority }}
+                    </span>
+
+                    @if ($task->due_date)
+
+                        <span>
+                            Due:
+                            {{ $task->due_date->format('Y/m/d') }}
+                        </span>
+
+                    @endif
+
+                </div>
+
+            </article>
+
+        @endforeach
+
+    </div>
+
+@endif
 @endsection
