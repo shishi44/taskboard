@@ -59,6 +59,39 @@
 
         </nav>
 
+        <div class="sidebar-account">
+
+    <div class="account-info">
+
+        <span class="account-name">
+            {{ auth()->user()->name }}
+        </span>
+
+        <span class="account-email">
+            {{ auth()->user()->email }}
+        </span>
+
+    </div>
+
+
+    <form
+        action="{{ route('logout') }}"
+        method="POST"
+    >
+
+        @csrf
+
+        <button
+            type="submit"
+            class="sidebar-logout"
+        >
+            ログアウト
+        </button>
+
+    </form>
+
+</div>
+
     </aside>
 
 
