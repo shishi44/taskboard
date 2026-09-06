@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectController extends Controller
 {
-    public function index()
-    {
-        $projects = Project::latest()->get();
+public function index(Request $request)
+{
+    $projects = $request->user()
+        ->projects()
+        ->latest()
+        ->get();
 
-        return view('projects.index', [
-            'projects' => $projects,
-        ]);
-    }
+    return view('projects.index', [
+        'projects' => $projects,
+    ]);
+}
 
     public function create()
     {
@@ -28,7 +32,9 @@ class ProjectController extends Controller
             'description' => ['nullable', 'max:2000'],
         ]);
 
-        Project::create($validated);
+        $request->user()
+        ->projects()
+        ->create($validated);
 
         return redirect()
             ->route('projects.index')
@@ -37,6 +43,8 @@ class ProjectController extends Controller
 
 public function show(Project $project)
 {
+    Gate::authorize('view', $project);
+
     $project->load([
         'tasks' => function ($query) {
             $query->latest();
@@ -48,33 +56,47 @@ public function show(Project $project)
     ]);
 }
 
-    public function edit(Project $project)
-    {
-        return view('projects.edit', [
-            'project' => $project,
-        ]);
-    }
+public function edit(Project $project)
+{
+    Gate::authorize('update', $project);
 
-    public function update(Request $request, Project $project)
-    {
-        $validated = $request->validate([
-            'name' => ['required', 'max:255'],
-            'description' => ['nullable', 'max:2000'],
-        ]);
+    return view('projects.edit', [
+        'project' => $project,
+    ]);
+}
 
-        $project->update($validated);
+    public function update(
+    Request $request,
+    Project $project
+) {
+    Gate::authorize('update', $project);
 
-        return redirect()
-            ->route('projects.show', $project)
-            ->with('success', 'プロジェクトを更新しました。');
-    }
+    $validated = $request->validate([
+        'name' => ['required', 'max:255'],
+        'description' => ['nullable', 'max:2000'],
+    ]);
+
+    $project->update($validated);
+
+    return redirect()
+        ->route('projects.show', $project)
+        ->with(
+            'success',
+            'プロジェクトを更新しました。'
+        );
+}
 
     public function destroy(Project $project)
-    {
-        $project->delete();
+{
+    Gate::authorize('delete', $project);
 
-        return redirect()
-            ->route('projects.index')
-            ->with('success', 'プロジェクトを削除しました。');
-    }
+    $project->delete();
+
+    return redirect()
+        ->route('projects.index')
+        ->with(
+            'success',
+            'プロジェクトを削除しました。'
+        );
+}
 }
